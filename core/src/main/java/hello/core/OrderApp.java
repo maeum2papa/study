@@ -7,13 +7,19 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.order.Order;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 public class OrderApp {
     public static void main(String[] args) {
 
-        AppConfing appConfing = new AppConfing();
-        MemberService memberService = appConfing.memberService();
-        OrderService orderService = appConfing.orderService();
+//        AppConfing appConfing = new AppConfing();
+//        MemberService memberService = appConfing.memberService();
+//        OrderService orderService = appConfing.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigReactiveWebApplicationContext(AppConfing.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
 

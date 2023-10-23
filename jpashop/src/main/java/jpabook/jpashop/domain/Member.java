@@ -19,7 +19,7 @@ public class Member {
 
     private String name;
 
-    @Enumerated
+    @Embedded
     private Address address;
 
     @OneToMany(mappedBy = "member")

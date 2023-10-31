@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-//@Rollback(false)
+@Rollback(false)
 class MemberJpaRepositoryTest {
 
     @Autowired MemberJpaRepository memberJpaRepository;
@@ -59,6 +59,43 @@ class MemberJpaRepositoryTest {
         long deleteCount = memberJpaRepository.count();
         assertThat(deleteCount).isEqualTo(0);
 
+
+    }
+
+    @Test
+    public void paging() {
+
+        memberJpaRepository.save(new Member("AAA", 10));
+        memberJpaRepository.save(new Member("BBB", 10));
+        memberJpaRepository.save(new Member("CCC", 10));
+        memberJpaRepository.save(new Member("DDD", 10));
+        memberJpaRepository.save(new Member("EEE", 10));
+
+        int age = 10;
+        int offset = 0; // 어디서 시작할 것인가
+        int limit = 3;
+
+        long totalCount = memberJpaRepository.totalCount(age);
+        List<Member> members = memberJpaRepository.findByPage(age, offset, limit);
+
+
+        System.out.println("members = " + members);
+        assertThat(totalCount).isEqualTo(5);
+
+    }
+
+    @Test
+    public void blukUpdate() {
+
+        memberJpaRepository.save(new Member("AAA", 10));
+        memberJpaRepository.save(new Member("BBB", 20));
+        memberJpaRepository.save(new Member("CCC", 30));
+        memberJpaRepository.save(new Member("DDD", 40));
+        memberJpaRepository.save(new Member("EEE", 50));
+
+        int i = memberJpaRepository.blukAgePlus(20);
+
+        assertThat(i).isEqualTo(4);
 
     }
 
